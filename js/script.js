@@ -42,6 +42,7 @@ const appendPageLinks = (collection) => {
     let li = document.createElement('li');
     let a = document.createElement('a');
     a.textContent = `${i+1}`;
+    a.href = "#";
     if (i === 0) {
       a.className = 'active';
     }
