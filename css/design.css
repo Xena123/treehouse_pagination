@@ -96,17 +96,13 @@ body{
     padding: 0;
     border-bottom: none;
   }
-
-.pagination{
-  margin: 40px 0 0 0;
-  text-align: center;
-}
  
-  .pagination li{
+  .pagination li {
     display: inline;
+    margin-right: 10px;
   }
 
-    .pagination li a{
+    .pagination li a {
       border: 1px solid #eaeaea;
       border-radius: 5px;
       padding: 3px 8px;
@@ -120,22 +116,9 @@ body{
       color: #fff;
     }
 
-.js-buttonDiv {
+.pagination {
   position: absolute;
-  bottom: 30px;
+  bottom: 40px;
   left: 50%;
   transform: translate(-50%);
-}
-
-.js-buttonDiv li {
-  display: inline-block;
-  cursor: pointer;
-  padding: 10px;
-  margin-right: 10px;
-}
-
-.js-currentPage {
-  background-color: #4ba6c3;
-  border-radius: 10px;
-  color: white;
 }

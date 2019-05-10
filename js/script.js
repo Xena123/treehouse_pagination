@@ -26,39 +26,42 @@ const showPage = (collection, page) => {
 showPage(listItems, 1);
 
 const appendPageLinks = (collection) => {
-  // get the number of buttons needed by dividing the collection length by the number per page
+  // get the number of links needed by dividing the collection length by the number per page
   let noOfPages = collection.length / noPerPage;
   // round up to get number of buttons
   noOfPages = Math.ceil(noOfPages);
-  // create and append the div container and the unordered list that will house the buttons
+  // create and append the div container and the unordered list that will house the links
   const linkContainer = document.createElement('div');
-  linkContainer.className = 'js-buttonDiv';
+  linkContainer.className = 'pagination';
   document.querySelector('.page').appendChild(linkContainer);
   const ul = document.createElement('ul');
   linkContainer.appendChild(ul);
 
-  // create a loop and create a list item and a button for each page number
+  // create a loop and create a list item and a link for each page number
   for (let i = 0; i < noOfPages; i++) {
     let li = document.createElement('li');
-    li.textContent = `${i+1}`;
+    let a = document.createElement('a');
+    a.textContent = `${i+1}`;
     if (i === 0) {
-      li.className = 'js-currentPage';
+      a.className = 'active';
     }
     ul.appendChild(li);
-    
+    li.appendChild(a);
   }
 
   ul.addEventListener('click', (e) => {
-    const li = e.target;
-    // get the page number from the pressed button
+    const link = e.target;
+    // get the page number from the pressed link
     let page = e.target.textContent;
     // run the showpage function passing in the page number from the button pressed
     showPage(collection, page);
-    const lis = document.querySelectorAll('.js-buttonDiv li');
-    for (let i = 0; i < lis.length; i++) {
-      lis[i].classList.remove('js-currentPage');
+    const links = document.querySelectorAll('.pagination a');
+    // loop through the links and remove the class before adding it
+    for (let i = 0; i < links.length; i++) {
+      links[i].classList.remove('active');
     }
-    li.className = "js-currentPage";
+    // add class to link that was clicked
+    link.className = "active";
   });
 }
 
