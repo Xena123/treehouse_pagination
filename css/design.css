@@ -1,7 +1,7 @@
 body{
   background-color: #e1f1f6;
-  font-family: Helvetica, sans-serif;
   color: #222;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .page{
@@ -10,14 +10,16 @@ body{
   background-color: #fff;
   border-radius: 5px;
   padding: 50px;
+  min-height: 890px;
+  position: relative;
 }
 
 .page-header{
   margin-bottom: 20px;
+  text-align: center;
 }
   .page-header h2{
-    float: left;
-    font-size: 22px;
+    font-size: 30px;
     text-transform: uppercase;
     font-weight: bold;
     color: #555;
@@ -118,16 +120,22 @@ body{
       color: #fff;
     }
 
-.js-linkDiv {
-  margin: 0 auto;
-  text-align: center;
+.js-buttonDiv {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translate(-50%);
 }
 
-.js-linkDiv li {
+.js-buttonDiv li {
   display: inline-block;
+  cursor: pointer;
+  padding: 10px;
+  margin-right: 10px;
 }
 
-.js-linkDiv button {
-  cursor: pointer;
-  margin-right: 10px;
+.js-currentPage {
+  background-color: #4ba6c3;
+  border-radius: 10px;
+  color: white;
 }

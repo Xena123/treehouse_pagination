@@ -32,7 +32,7 @@ const appendPageLinks = (collection) => {
   noOfPages = Math.ceil(noOfPages);
   // create and append the div container and the unordered list that will house the buttons
   const linkContainer = document.createElement('div');
-  linkContainer.className = 'js-linkDiv';
+  linkContainer.className = 'js-buttonDiv';
   document.querySelector('.page').appendChild(linkContainer);
   const ul = document.createElement('ul');
   linkContainer.appendChild(ul);
@@ -40,19 +40,25 @@ const appendPageLinks = (collection) => {
   // create a loop and create a list item and a button for each page number
   for (let i = 0; i < noOfPages; i++) {
     let li = document.createElement('li');
-    let button = document.createElement('button');
-    li.className = `js-listItem-${i+1}`;
+    li.textContent = `${i+1}`;
+    if (i === 0) {
+      li.className = 'js-currentPage';
+    }
     ul.appendChild(li);
-    button.className = `js-page-${i+1}`;
-    button.textContent = `${i+1}`
-    li.appendChild(button);
+    
   }
 
   ul.addEventListener('click', (e) => {
+    const li = e.target;
     // get the page number from the pressed button
-    page = e.target.textContent;
+    let page = e.target.textContent;
     // run the showpage function passing in the page number from the button pressed
     showPage(collection, page);
+    const lis = document.querySelectorAll('.js-buttonDiv li');
+    for (let i = 0; i < lis.length; i++) {
+      lis[i].classList.remove('js-currentPage');
+    }
+    li.className = "js-currentPage";
   });
 }
 
