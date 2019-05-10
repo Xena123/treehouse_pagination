@@ -3,48 +3,57 @@ Treehouse Techdegree:
 FSJS project 2 - List Filter and Pagination
 ******************************************/
    
-// Study guide for this project - https://drive.google.com/file/d/1OD1diUsTMdpfMDv677TfL1xO2CEkykSz/view?usp=sharing
+const listItems = document.querySelectorAll('.student-item');
+const noPerPage = 10;
 
+const showPage = (collection, page) => {
+  // get the first index and last index based on the page number passed in
+  firstIndex = (page * noPerPage) - 10;
+  lastIndex = (noPerPage * page);
+  // loop through the collection and compare the current index to firstindex and lastindex variables
+  for (i = 0; i < collection.length; i++) {
+    if (i >= firstIndex && i < lastIndex) {
+      // if its in the range leave the display property the same
+      collection[i].style.display = '';
+    } else {
+      // if its out the range hide the whole list item
+      collection[i].style.display = 'none';
+    } 
+  }
+}
 
-/*** 
-   Add your global variables that store the DOM elements you will 
-   need to reference and/or manipulate. 
-   
-   But be mindful of which variables should be global and which 
-   should be locally scoped to one of the two main functions you're 
-   going to create. A good general rule of thumb is if the variable 
-   will only be used inside of a function, then it can be locally 
-   scoped to that function.
-***/
+// call the function once to show the first page.
+showPage(listItems, 1);
 
+const appendPageLinks = (collection) => {
+  // get the number of buttons needed by dividing the collection length by the number per page
+  let noOfPages = collection.length / noPerPage;
+  // round up to get number of buttons
+  noOfPages = Math.ceil(noOfPages);
+  // create and append the div container and the unordered list that will house the buttons
+  const linkContainer = document.createElement('div');
+  linkContainer.className = 'js-linkDiv';
+  document.querySelector('.page').appendChild(linkContainer);
+  const ul = document.createElement('ul');
+  linkContainer.appendChild(ul);
 
+  // create a loop and create a list item and a button for each page number
+  for (let i = 0; i < noOfPages; i++) {
+    let li = document.createElement('li');
+    let button = document.createElement('button');
+    li.className = `js-listItem-${i+1}`;
+    ul.appendChild(li);
+    button.className = `js-page-${i+1}`;
+    button.textContent = `${i+1}`
+    li.appendChild(button);
+  }
 
+  ul.addEventListener('click', (e) => {
+    // get the page number from the pressed button
+    page = e.target.textContent;
+    // run the showpage function passing in the page number from the button pressed
+    showPage(collection, page);
+  });
+}
 
-/*** 
-   Create the `showPage` function to hide all of the items in the 
-   list except for the ten you want to show.
-
-   Pro Tips: 
-     - Keep in mind that with a list of 54 students, the last page 
-       will only display four.
-     - Remember that the first student has an index of 0.
-     - Remember that a function `parameter` goes in the parens when 
-       you initially define the function, and it acts as a variable 
-       or a placeholder to represent the actual function `argument` 
-       that will be passed into the parens later when you call or 
-       "invoke" the function 
-***/
-
-
-
-
-/*** 
-   Create the `appendPageLinks function` to generate, append, and add 
-   functionality to the pagination buttons.
-***/
-
-
-
-
-
-// Remember to delete the comments that came with this file, and replace them with your own code comments.
+appendPageLinks(listItems);

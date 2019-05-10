@@ -117,3 +117,17 @@ body{
       background-color: #4ba6c3;
       color: #fff;
     }
+
+.js-linkDiv {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.js-linkDiv li {
+  display: inline-block;
+}
+
+.js-linkDiv button {
+  cursor: pointer;
+  margin-right: 10px;
+}
