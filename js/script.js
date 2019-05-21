@@ -5,6 +5,7 @@ FSJS project 2 - List Filter and Pagination
    
 const listItems = document.querySelectorAll('.student-item');
 const noPerPage = 10;
+const names = document.querySelectorAll('.student-item h3');
 
 const showPage = (collection, page) => {
   // get the first index and last index based on the page number passed in
@@ -67,3 +68,48 @@ const appendPageLinks = (collection) => {
 }
 
 appendPageLinks(listItems);
+
+// create all the search elements and append the correct places
+const header = document.querySelector('.page-header');   
+const searchDiv = document.createElement('div');
+searchDiv.classList.add('student-search');
+const searchInput = document.createElement('input');
+searchInput.placeholder = "Search for students...";
+const searchButton = document.createElement('button');
+searchButton.textContent = 'Search';
+searchDiv.appendChild(searchInput);
+searchDiv.appendChild(searchButton);
+header.appendChild(searchDiv);
+
+
+const searchContent = (searchInput, content) => {
+  // loop through all the content that is passed in with the content parameter
+  for (let i = 0; i < content.length; i++) {
+    let currentItem = content[i].textContent.toLowerCase();
+    let currentParent = content[i].parentNode.parentNode;
+    let currentInput = searchInput.value.toLowerCase();
+
+    // first loop through all the parent elements and remove the class hide
+    currentParent.classList.remove("hide");
+    // then if the content does not match what is submitted/typed in the input then add the hide class to that parent element
+    if (currentInput.length != 0) {
+      if (!(currentItem.includes(currentInput))) {
+        currentParent.classList.add("hide");
+      }
+    }
+  }
+}
+
+searchButton.addEventListener('click', (e) => {
+  // prevent button from refreshing page
+  e.preventDefault();
+  // call the search function when clicking on the search button
+  searchContent(searchInput, names);
+  
+});
+
+searchInput.addEventListener('keyup', () => {
+  // call the search function on the keyup event
+  searchContent(searchInput, names);
+
+});
