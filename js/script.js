@@ -69,7 +69,7 @@ const appendPageLinks = (collection) => {
 
 appendPageLinks(listItems);
 
-// create all the search elements and append the correct places
+// create all the search elements and append in the correct places
 const header = document.querySelector('.page-header');   
 const searchDiv = document.createElement('div');
 searchDiv.classList.add('student-search');
@@ -89,12 +89,13 @@ const searchContent = (searchInput, content) => {
     let currentParent = content[i].parentNode.parentNode;
     let currentInput = searchInput.value.toLowerCase();
 
-    // first loop through all the parent elements and remove the class hide
-    currentParent.classList.remove("hide");
+    currentParent.style.display = '';
+    currentParent.classList.add('match');
     // then if the content does not match what is submitted/typed in the input then add the hide class to that parent element
     if (currentInput.length != 0) {
       if (!(currentItem.includes(currentInput))) {
-        currentParent.classList.add("hide");
+        currentParent.style.display = 'none';
+        currentParent.classList.remove('match');
       }
     }
   }
@@ -105,11 +106,15 @@ searchButton.addEventListener('click', (e) => {
   e.preventDefault();
   // call the search function when clicking on the search button
   searchContent(searchInput, names);
-  
+  let searchResults = document.querySelectorAll('.match');
+  appendPageLinks(searchResults);
 });
 
 searchInput.addEventListener('keyup', () => {
   // call the search function on the keyup event
   searchContent(searchInput, names);
-
+  let searchResults = document.querySelectorAll('.match');
+  appendPageLinks(searchResults);
 });
+
+
