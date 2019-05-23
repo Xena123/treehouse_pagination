@@ -6,6 +6,7 @@ FSJS project 2 - List Filter and Pagination
 let listItems = document.querySelectorAll('.student-item');
 const noPerPage = 10;
 const names = document.querySelectorAll('.student-item h3');
+const page = document.querySelector('.page');
 
 const showPage = (collection, page) => {
   // get the first index and last index based on the page number passed in
@@ -27,6 +28,11 @@ const showPage = (collection, page) => {
 showPage(listItems, 1);
 
 const appendPageLinks = (collection) => {
+  paginationDiv = document.getElementsByClassName("pagination");
+  console.log(paginationDiv);
+  // if (paginationDiv) {
+  //   page.removeChild(paginationDiv);
+  // }
   // get the number of links needed by dividing the collection length by the number per page
   let noOfPages = collection.length / noPerPage;
   // round up to get number of buttons
@@ -67,6 +73,8 @@ const appendPageLinks = (collection) => {
   });
 }
 
+appendPageLinks(listItems);
+
 // create all the search elements and append in the correct places
 const header = document.querySelector('.page-header');   
 const searchDiv = document.createElement('div');
@@ -81,22 +89,22 @@ header.appendChild(searchDiv);
 
 
 const searchContent = (searchInput, content) => {
+  let storageArr = [];
   // loop through all the content that is passed in with the content parameter
   for (let i = 0; i < content.length; i++) {
     let currentItem = content[i].textContent.toLowerCase();
     let currentParent = content[i].parentNode.parentNode;
     let currentInput = searchInput.value.toLowerCase();
 
-    currentParent.style.display = '';
-    currentParent.classList.add('match');
+    currentParent.style.display = 'none';
     // then if the content does not match what is submitted/typed in the input then add the hide class to that parent element
     if (currentInput.length != 0) {
-      if (!(currentItem.includes(currentInput))) {
-        currentParent.style.display = 'none';
-        currentParent.classList.remove('match');
+      if (currentItem.includes(currentInput)) {
+        storageArr.push(currentItem);
       }
     }
   }
+  return storageArr;
 }
 
 searchButton.addEventListener('click', (e) => {
@@ -104,13 +112,13 @@ searchButton.addEventListener('click', (e) => {
   e.preventDefault();
   // call the search function when clicking on the search button
   searchContent(searchInput, names);
-  let listItems = document.querySelectorAll('.match');
+  
 });
 
 searchInput.addEventListener('keyup', () => {
   // call the search function on the keyup event
-  searchContent(searchInput, names);
-  let listItems = document.querySelectorAll('.match');
+  const searchResults = searchContent(searchInput, names);
+  console.log(searchResults);
 });
 
-appendPageLinks(listItems);
+
