@@ -28,11 +28,6 @@ const showPage = (collection, page) => {
 showPage(listItems, 1);
 
 const appendPageLinks = (collection) => {
-  paginationDiv = document.getElementsByClassName("pagination");
-  console.log(paginationDiv);
-  // if (paginationDiv) {
-  //   page.removeChild(paginationDiv);
-  // }
   // get the number of links needed by dividing the collection length by the number per page
   let noOfPages = collection.length / noPerPage;
   // round up to get number of buttons
@@ -100,7 +95,7 @@ const searchContent = (searchInput, content) => {
     // then if the content does not match what is submitted/typed in the input then add the hide class to that parent element
     if (currentInput.length != 0) {
       if (currentItem.includes(currentInput)) {
-        storageArr.push(currentItem);
+        storageArr.push(currentParent);
       }
     }
   }
@@ -111,14 +106,26 @@ searchButton.addEventListener('click', (e) => {
   // prevent button from refreshing page
   e.preventDefault();
   // call the search function when clicking on the search button
-  searchContent(searchInput, names);
-  
+  const searchResults = searchContent(searchInput, names);
+  paginationDiv = document.querySelector(".pagination");
+  if (paginationDiv) {
+    page.removeChild(paginationDiv);
+  }
+  showPage(searchResults, 1);
+  appendPageLinks(searchResults);
 });
 
 searchInput.addEventListener('keyup', () => {
   // call the search function on the keyup event
   const searchResults = searchContent(searchInput, names);
   console.log(searchResults);
+
+  paginationDiv = document.querySelector(".pagination");
+  if (paginationDiv) {
+    page.removeChild(paginationDiv);
+  }
+  showPage(searchResults, 1);
+  appendPageLinks(searchResults);
 });
 
 
