@@ -8,6 +8,20 @@ const noPerPage = 10;
 const names = document.querySelectorAll('.student-item h3');
 const page = document.querySelector('.page');
 
+// create all the search elements and append in the correct places
+createSearch = () => {
+  const header = document.querySelector('.page-header');   
+  const searchDiv = document.createElement('div');
+  searchDiv.classList.add('student-search');
+  const searchInput = document.createElement('input');
+  searchInput.placeholder = "Search for students...";
+  const searchButton = document.createElement('button');
+  searchButton.textContent = 'Search';
+  searchDiv.appendChild(searchInput);
+  searchDiv.appendChild(searchButton);
+  header.appendChild(searchDiv);
+}
+
 const showPage = (collection, page) => {
   // get the first index and last index based on the page number passed in
   firstIndex = (page * noPerPage) - 10;
@@ -23,9 +37,6 @@ const showPage = (collection, page) => {
     } 
   }
 }
-
-// call the function once to show the first page.
-showPage(listItems, 1);
 
 const appendPageLinks = (collection) => {
   // get the number of links needed by dividing the collection length by the number per page
@@ -68,21 +79,6 @@ const appendPageLinks = (collection) => {
   });
 }
 
-appendPageLinks(listItems);
-
-// create all the search elements and append in the correct places
-const header = document.querySelector('.page-header');   
-const searchDiv = document.createElement('div');
-searchDiv.classList.add('student-search');
-const searchInput = document.createElement('input');
-searchInput.placeholder = "Search for students...";
-const searchButton = document.createElement('button');
-searchButton.textContent = 'Search';
-searchDiv.appendChild(searchInput);
-searchDiv.appendChild(searchButton);
-header.appendChild(searchDiv);
-
-
 const searchContent = (searchInput, content) => {
   let storageArr = [];
   // loop through all the content that is passed in with the content parameter
@@ -102,30 +98,34 @@ const searchContent = (searchInput, content) => {
   return storageArr;
 }
 
+
+// call the function once to show the first page.
+showPage(listItems, 1);
+
+appendPageLinks(listItems);
+createSearch();
+
+const searchEvent = (searchInput, content) => {
+  const searchResults = searchContent(searchInput, content);
+  const paginationDiv = document.querySelector(".pagination");
+
+  if (paginationDiv) {
+    page.removeChild(paginationDiv);
+  }
+
+  showPage(searchResults, 1);
+  appendPageLinks(searchResults);
+}
+
 searchButton.addEventListener('click', (e) => {
   // prevent button from refreshing page
   e.preventDefault();
   // call the search function when clicking on the search button
-  const searchResults = searchContent(searchInput, names);
-  paginationDiv = document.querySelector(".pagination");
-  if (paginationDiv) {
-    page.removeChild(paginationDiv);
-  }
-  showPage(searchResults, 1);
-  appendPageLinks(searchResults);
+  searchEvent(searchInput, names);
 });
 
 searchInput.addEventListener('keyup', () => {
   // call the search function on the keyup event
-  const searchResults = searchContent(searchInput, names);
-  console.log(searchResults);
-
-  paginationDiv = document.querySelector(".pagination");
-  if (paginationDiv) {
-    page.removeChild(paginationDiv);
-  }
-  showPage(searchResults, 1);
-  appendPageLinks(searchResults);
+  searchEvent(searchInput, names);
 });
-
 
