@@ -51,18 +51,22 @@ const appendPageLinks = (collection) => {
 
   ul.addEventListener('click', (e) => {
     const link = e.target;
-    // get the page number from the pressed link
-    let pageLink = e.target.textContent;
-    // run the showpage function passing in the page number from the button pressed
-    showPage(collection, pageLink);
-    const links = document.querySelectorAll('.pagination a');
-    // loop through the links and remove the class before adding it
-    for (let i = 0; i < links.length; i++) {
-      links[i].classList.remove('active');
+  
+    if (link.tagName === 'A') {
+      // get the page number from the pressed link
+      let pageLink = e.target.textContent;
+      // run the showpage function passing in the page number from the button pressed
+      showPage(collection, pageLink);
+      const links = document.querySelectorAll('.pagination a');
+      // loop through the links and remove the class before adding it
+      for (let i = 0; i < links.length; i++) {
+        links[i].classList.remove('active');
+      }
+      // add class to link that was clicked
+      link.className = "active";
     }
-    // add class to link that was clicked
-    link.className = "active";
   });
+  
 }
 
 const searchContent = (searchInput, content) => {
@@ -128,7 +132,13 @@ const searchInit = () => {
   header.appendChild(searchDiv);
 
   searchInput.addEventListener('keyup', () => {
-    // call the search event function on the keyup event if the input is not empty
+    // call the search event function on the keyup event 
+    searchEvent(searchInput, names);
+  });
+  searchButton.addEventListener('click', (e) => {
+    // prevent button from refreshing page
+    e.preventDefault();
+    // call the search function when clicking on the search button
     searchEvent(searchInput, names);
   });
 }
