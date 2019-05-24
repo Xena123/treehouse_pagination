@@ -110,7 +110,7 @@ const searchEvent = (searchInput, content) => {
   // else if the search input is not empty then add the search results message
   } else if (searchInput.value.length != 0) {
     const messageDiv = document.createElement('p');
-    messageDiv.textContent = "No search results";
+    messageDiv.textContent = "No results found";
     page.appendChild(messageDiv);
   } else {
     showPage(listItems, 1);
