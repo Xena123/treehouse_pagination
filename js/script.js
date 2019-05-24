@@ -7,20 +7,7 @@ let listItems = document.querySelectorAll('.student-item');
 const noPerPage = 10;
 const names = document.querySelectorAll('.student-item h3');
 const page = document.querySelector('.page');
-
-// create all the search elements and append in the correct places
-createSearch = () => {
-  const header = document.querySelector('.page-header');   
-  const searchDiv = document.createElement('div');
-  searchDiv.classList.add('student-search');
-  const searchInput = document.createElement('input');
-  searchInput.placeholder = "Search for students...";
-  const searchButton = document.createElement('button');
-  searchButton.textContent = 'Search';
-  searchDiv.appendChild(searchInput);
-  searchDiv.appendChild(searchButton);
-  header.appendChild(searchDiv);
-}
+const paginationDiv = document.querySelector('.pagination');
 
 const showPage = (collection, page) => {
   // get the first index and last index based on the page number passed in
@@ -66,9 +53,9 @@ const appendPageLinks = (collection) => {
   ul.addEventListener('click', (e) => {
     const link = e.target;
     // get the page number from the pressed link
-    let page = e.target.textContent;
+    let pageLink = e.target.textContent;
     // run the showpage function passing in the page number from the button pressed
-    showPage(collection, page);
+    showPage(collection, pageLink);
     const links = document.querySelectorAll('.pagination a');
     // loop through the links and remove the class before adding it
     for (let i = 0; i < links.length; i++) {
@@ -87,45 +74,64 @@ const searchContent = (searchInput, content) => {
     let currentParent = content[i].parentNode.parentNode;
     let currentInput = searchInput.value.toLowerCase();
 
+    // first hide all the list items
     currentParent.style.display = 'none';
-    // then if the content does not match what is submitted/typed in the input then add the hide class to that parent element
+    // then if the current input is not empty add all the results to storageArr array
     if (currentInput.length != 0) {
       if (currentItem.includes(currentInput)) {
         storageArr.push(currentParent);
       }
     }
   }
+  // return the array
   return storageArr;
 }
 
-
-// call the function once to show the first page.
-showPage(listItems, 1);
-
-appendPageLinks(listItems);
-createSearch();
-
 const searchEvent = (searchInput, content) => {
+  // store the results of the searchContent function in a variable
   const searchResults = searchContent(searchInput, content);
-  const paginationDiv = document.querySelector(".pagination");
-
+  // if the pagination links already exist then remove them
   if (paginationDiv) {
     page.removeChild(paginationDiv);
   }
+  // if the array is not empty and the 'no search' message exists then remove the message
+  if (searchResults.length != 0) {
+    if (document.querySelector('p')) {
+      page.removeChild(document.querySelector('p'));
+    }
+    // then run the showPage and appendPageLinks function
+    showPage(searchResults, 1);
+    appendPageLinks(searchResults);
 
-  showPage(searchResults, 1);
-  appendPageLinks(searchResults);
+  } else {
+    const messageDiv = document.createElement('p');
+    messageDiv.textContent = "No search results";
+    page.appendChild(messageDiv);
+  }
 }
 
-searchButton.addEventListener('click', (e) => {
-  // prevent button from refreshing page
-  e.preventDefault();
-  // call the search function when clicking on the search button
-  searchEvent(searchInput, names);
-});
+const searchInit = () => {
+  // create all the search elements and append in the correct places
+  const header = document.querySelector('.page-header');   
+  const searchDiv = document.createElement('div');
+  searchDiv.classList.add('student-search');
+  const searchInput = document.createElement('input');
+  searchInput.placeholder = "Search for students...";
+  const searchButton = document.createElement('button');
+  searchButton.textContent = 'Search';
+  searchDiv.appendChild(searchInput);
+  searchDiv.appendChild(searchButton);
+  header.appendChild(searchDiv);
 
-searchInput.addEventListener('keyup', () => {
-  // call the search function on the keyup event
-  searchEvent(searchInput, names);
-});
+  searchInput.addEventListener('keyup', () => {
+    // call the search event function on the keyup event
+    if (searchInput.value.length != 0) {
+      searchEvent(searchInput, names);
+    }
+  });
+}
 
+// call the showPage function once to show the first page.
+showPage(listItems, 1);
+appendPageLinks(listItems);
+searchInit();
