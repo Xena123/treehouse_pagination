@@ -7,7 +7,6 @@ let listItems = document.querySelectorAll('.student-item');
 const noPerPage = 10;
 const names = document.querySelectorAll('.student-item h3');
 const page = document.querySelector('.page');
-const paginationDiv = document.querySelector('.pagination');
 
 const showPage = (collection, page) => {
   // get the first index and last index based on the page number passed in
@@ -90,6 +89,8 @@ const searchContent = (searchInput, content) => {
 const searchEvent = (searchInput, content) => {
   // store the results of the searchContent function in a variable
   const searchResults = searchContent(searchInput, content);
+  const paginationDiv = document.querySelector('.pagination');
+
   // if the pagination links already exist then remove them
   if (paginationDiv) {
     page.removeChild(paginationDiv);
@@ -124,10 +125,10 @@ const searchInit = () => {
   header.appendChild(searchDiv);
 
   searchInput.addEventListener('keyup', () => {
-    // call the search event function on the keyup event
+    // call the search event function on the keyup event if the input is not empty
     if (searchInput.value.length != 0) {
       searchEvent(searchInput, names);
-    }
+    } 
   });
 }
 
