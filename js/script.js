@@ -95,11 +95,11 @@ const searchEvent = (searchInput, content) => {
   if (paginationDiv) {
     page.removeChild(paginationDiv);
   }
+  if (document.querySelector('p')) {
+    page.removeChild(document.querySelector('p'));
+  }
   // if the array is not empty and the 'no search' message exists then remove the message
   if (searchResults.length != 0) {
-    if (document.querySelector('p')) {
-      page.removeChild(document.querySelector('p'));
-    }
     // then run the showPage and appendPageLinks function
     showPage(searchResults, 1);
     appendPageLinks(searchResults);
