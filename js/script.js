@@ -103,11 +103,14 @@ const searchEvent = (searchInput, content) => {
     // then run the showPage and appendPageLinks function
     showPage(searchResults, 1);
     appendPageLinks(searchResults);
-
-  } else {
+  // else if the search input is not empty then add the search results message
+  } else if (searchInput.value.length != 0) {
     const messageDiv = document.createElement('p');
     messageDiv.textContent = "No search results";
     page.appendChild(messageDiv);
+  } else {
+    showPage(listItems, 1);
+    appendPageLinks(listItems);
   }
 }
 
@@ -126,9 +129,7 @@ const searchInit = () => {
 
   searchInput.addEventListener('keyup', () => {
     // call the search event function on the keyup event if the input is not empty
-    if (searchInput.value.length != 0) {
-      searchEvent(searchInput, names);
-    } 
+    searchEvent(searchInput, names);
   });
 }
 
